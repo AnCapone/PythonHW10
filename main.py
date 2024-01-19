@@ -13,6 +13,11 @@ class City:
 
     def __init__(self, city_name, region_name, state, post_code, phone_code, population=10000):
         self.city_name = city_name
+        self.region_name = region_name
+        self.state = state
+        self.post_code = post_code
+        self.phone_code = phone_code
+        self.population = population
 
     @property
     def city_name(self):
@@ -63,11 +68,14 @@ class City:
     def population(self):
         return self.__population
 
-    @population
+    @population.setter
     def population(self, population):
         if population > 0:
             self.__population = int(population)
 
+    def show_info(self):
+        print(f"City {self.city_name} in {self.region_name} region in {self.state}. {self.population} peoples live here."
+              f"Post code of city {self.post_code}. Phone code: {self.phone_code}")
 
 # class State:
 #     __state_name = "no name"
