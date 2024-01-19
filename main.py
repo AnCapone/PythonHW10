@@ -21,7 +21,7 @@ class City:
 
     @property
     def city_name(self):
-        return self.__city_name
+        return str.title(self.__city_name)
 
     @city_name.setter
     def city_name(self, city_name):
@@ -30,7 +30,7 @@ class City:
 
     @property
     def region_name(self):
-        return self.__region_name
+        return str.title(self.__region_name)
 
     @region_name.setter
     def region_name(self, region_name):
@@ -39,7 +39,7 @@ class City:
 
     @property
     def state(self):
-        return self.__state
+        return str.title(self.__state)
 
     @state.setter
     def state(self, state):
@@ -78,8 +78,8 @@ class City:
 
     def show_info(self):
         print(
-            f"City {self.city_name} in {self.region_name} region in {self.state}. {self.population} peoples live here."
-            f"Post code of city {self.post_code}. Phone code: {self.phone_code}\n")
+            f"City {self.city_name} in {self.region_name} region in {self.state}. {self.population} peoples live here. "
+            f"Post code of city {self.post_code}. Phone code: {self.phone_code}")
 
 
 # Завдання 2: Створіть клас "Країна". Необхідно зберігати в полях класу: назву країни, назву континенту, кількість
@@ -115,7 +115,7 @@ class State:
     @continent.setter
     def continent(self, continent):
         if re.fullmatch(r'\b\w{2,}\b', continent):
-            self.__name = continent
+            self.__continent = continent
 
     @property
     def phone_code(self):
@@ -143,7 +143,9 @@ class State:
     def add_city(self, city: City):
         if isinstance(city, City):
             self.cities.append(city)
+            self.__calculate_population()
             return
+
         raise Exception("fProvided value with incorrect type for city: {type(city)}")
 
     def __calculate_population(self):
@@ -155,3 +157,20 @@ class State:
     def population(self):
         return self.__population
 
+    def about_state(self):
+        print(f"{self.name} is a country in {self.continent}. {self.capital} is a capital of {self.name}. Phone code: "
+              f"{self.phone_code}")
+        self.show_cities()
+        print(f"Population of {self.name} {self.population}")
+        print()
+
+try:
+    cities: list[City] = [City("kyiv", "kyiv", "Ukraine", "01000", "044", 2952301),
+                          City("Kramatorsk", "Donetsk", "Ukraine", "84300", "06264", 147145),
+                          City("Berdychiv", "Zhytomyr", "Ukraine", "13300", "04143", 73046)]
+    ukraine = State("Ukraine", "Europe", "+38", "Kyiv", cities)
+    ukraine.about_state()
+    ukraine.add_city(City("Uman", "Cherkasy", "Ukraine", "20300", "04744", 81525))
+    ukraine.about_state()
+except Exception as error:
+    print(error)
